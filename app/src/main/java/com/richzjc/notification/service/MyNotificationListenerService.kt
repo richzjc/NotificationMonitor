@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import android.text.TextUtils
 import com.richzjc.notification.adapter.NotificationAdapter
 import com.richzjc.notification.db.DataBaseHelper
 import com.richzjc.notification.model.NotificationEntity
@@ -42,7 +43,8 @@ class MyNotificationListenerService : NotificationListenerService() {
         entity.subContent = contentSubText
         entity.flag = flag
         entity.packageName = com.richzjc.notification.util.getPackageName(allAppList, sbn)
-        if (containsPackageName(entity.packageName)) {
+        val isMsgEmpty = TextUtils.isEmpty(title) && TextUtils.isEmpty(contentText) && TextUtils.isEmpty(contentSubText)
+        if (containsPackageName(entity.packageName) && !isMsgEmpty) {
             NotificationAdapter.list.add(0, entity)
             NotificationAdapter.notifyItemInserted(0)
             insert(dbHelper, entity)
