@@ -1,9 +1,12 @@
-package com.richzjc.notification
+package com.richzjc.notification.adapter
 
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.richzjc.notification.model.NotificationEntity
+import com.richzjc.notification.adapter.holder.NotificationHolder
+import com.richzjc.notification.R
 
 object NotificationAdapter : RecyclerView.Adapter<NotificationHolder>() {
     val list = mutableListOf<NotificationEntity>()

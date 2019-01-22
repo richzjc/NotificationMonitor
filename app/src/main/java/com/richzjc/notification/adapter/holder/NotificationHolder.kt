@@ -1,8 +1,9 @@
-package com.richzjc.notification
+package com.richzjc.notification.adapter.holder
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.richzjc.notification.model.NotificationEntity
 
 class NotificationHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 
