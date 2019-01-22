@@ -30,9 +30,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val notificationIntent = Intent(this, NotificationListActivity::class.java)
             startActivity(notificationIntent)
             packageNames = et?.text?.toString()?.trim()?.let {
-                val list = it.split(",")
-                list.forEach { it.trim() }
-                list
+                if(it.isEmpty())
+                    null
+                else {
+                    val list = it.split(",")
+                    list.forEach { it.trim() }
+                    list
+                }
             }
         } else {
             openNotificationSettings()

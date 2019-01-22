@@ -6,26 +6,26 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.richzjc.notification.R
+import com.richzjc.notification.adapter.NotificationAdapter.list
 import com.richzjc.notification.adapter.holder.AppListHolder
-import android.content.pm.ApplicationInfo
-
+import com.richzjc.notification.util.allAppList
+import com.richzjc.notification.util.getAllApp
 
 
 class AppListAdapter(context: Context) : RecyclerView.Adapter<AppListHolder>() {
-    val list = context.packageManager.getInstalledPackages(0).filter {
-        val flag = (it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM === 0)
-        flag
-    }
 
+    init {
+        getAllApp(context)
+    }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): AppListHolder {
         return AppListHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_app, p0, false))
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = allAppList?.size ?: 0
 
     override fun onBindViewHolder(p0: AppListHolder, p1: Int) {
-        p0.doBindData(list[p1])
+        p0.doBindData(allAppList!![p1])
         if (p1 % 2 == 0) {
             p0.itemView.setBackgroundColor(Color.WHITE)
         } else {

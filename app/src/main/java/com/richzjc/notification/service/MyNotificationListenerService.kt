@@ -9,6 +9,7 @@ import android.service.notification.StatusBarNotification
 import com.richzjc.notification.adapter.NotificationAdapter
 import com.richzjc.notification.db.DataBaseHelper
 import com.richzjc.notification.model.NotificationEntity
+import com.richzjc.notification.util.allAppList
 import com.richzjc.notification.util.containsPackageName
 import com.richzjc.notification.util.insert
 
@@ -40,8 +41,8 @@ class MyNotificationListenerService : NotificationListenerService() {
         entity.content = contentText
         entity.subContent = contentSubText
         entity.flag = flag
-        entity.packageName = sbn?.packageName
-        if (containsPackageName(sbn?.groupKey, entity)) {
+        entity.packageName = com.richzjc.notification.util.getPackageName(allAppList, sbn)
+        if (containsPackageName(entity.packageName)) {
             NotificationAdapter.list.add(0, entity)
             NotificationAdapter.notifyItemInserted(0)
             insert(dbHelper, entity)
