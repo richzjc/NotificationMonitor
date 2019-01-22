@@ -41,14 +41,11 @@ class MyNotificationListenerService : NotificationListenerService() {
         entity.subContent = contentSubText
         entity.flag = flag
         entity.packageName = sbn?.packageName
-        if (containsPackageName(sbn?.packageName)) {
+        if (containsPackageName(sbn?.groupKey, entity)) {
             NotificationAdapter.list.add(0, entity)
             NotificationAdapter.notifyItemInserted(0)
             insert(dbHelper, entity)
         }
-    }
 
-    override fun onNotificationRemoved(sbn: StatusBarNotification?) {
-        super.onNotificationRemoved(sbn)
     }
 }

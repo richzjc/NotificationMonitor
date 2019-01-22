@@ -1,7 +1,6 @@
 package com.richzjc.notification.util
 
 import android.content.ContentValues
-import android.text.TextUtils
 import android.util.Log
 import com.richzjc.notification.db.DataBaseHelper
 import com.richzjc.notification.model.NotificationEntity
@@ -18,18 +17,18 @@ fun insert(dbHelpter: DataBaseHelper, entity: NotificationEntity) {
     Log.i("size", "${cursor.count}")
 }
 
-fun containsPackageName(packageName: String?): Boolean {
-    return if (packageNames == null || packageNames!!.isEmpty())
+fun containsPackageName(packageName: String?, entity: NotificationEntity): Boolean {
+    return if (packageNames == null || packageNames!!.isEmpty() || packageName == null)
         true
     else {
-        var flag : Boolean = true
+        var flag: Boolean = false
         packageNames?.forEach {
-            if(TextUtils.equals(it.trim(), packageName?.trim())){
+            if (packageName.contains(it.trim()) && it.isNotEmpty()) {
+                entity.packageName = it.trim()
                 flag = true
                 return@forEach
             }
         }
         flag
     }
-
 }
