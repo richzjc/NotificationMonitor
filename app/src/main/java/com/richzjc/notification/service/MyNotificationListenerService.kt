@@ -40,6 +40,7 @@ class MyNotificationListenerService : NotificationListenerService() {
         entity.content = contentText
         entity.subContent = contentSubText
         entity.flag = flag
+        entity.packageName = sbn?.packageName
         NotificationAdapter.list.add(0, entity)
         NotificationAdapter.notifyItemInserted(0)
         insert(dbHelper, entity)

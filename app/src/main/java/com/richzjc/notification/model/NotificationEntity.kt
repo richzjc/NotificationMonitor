@@ -5,4 +5,5 @@ class NotificationEntity {
     var content : String? = null
     var subContent : String? = null
     var flag : Int? = null
+    var packageName : String? = null
 }

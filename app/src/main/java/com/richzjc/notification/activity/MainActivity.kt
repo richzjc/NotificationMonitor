@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (isNotificationListenerEnable()) {
-//            val notificationIntent = Intent(this, NotificationListActivity::class.java)
-//            startActivity(notificationIntent)
+            val notificationIntent = Intent(this, NotificationListActivity::class.java)
+            startActivity(notificationIntent)
             val intent = Intent(this, MyNotificationListenerService::class.java)
             startService(intent)
             Toast.makeText(this, "启动服务成功", Toast.LENGTH_SHORT).show()

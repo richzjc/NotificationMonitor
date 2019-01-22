@@ -20,11 +20,5 @@ object NotificationAdapter : RecyclerView.Adapter<NotificationHolder>() {
 
     override fun onBindViewHolder(p0: NotificationHolder, p1: Int) {
         p0.doBindData(list[p1])
-        if(p1%2 == 0){
-            p0.itemView.setBackgroundColor(Color.WHITE)
-        }else{
-            p0.itemView.setBackgroundColor(Color.GREEN)
-        }
-
     }
 }
