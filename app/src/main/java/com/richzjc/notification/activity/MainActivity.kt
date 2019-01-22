@@ -2,17 +2,17 @@ package com.richzjc.notification.activity
 
 import android.content.Intent
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.NotificationManagerCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-import com.richzjc.notification.service.MyNotificationListenerService
-import com.richzjc.notification.adapter.NotificationAdapter
 import com.richzjc.notification.R
 import com.richzjc.notification.adapter.AppListAdapter
+import com.richzjc.notification.packageNames
+import com.richzjc.notification.service.MyNotificationListenerService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -27,9 +27,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (isNotificationListenerEnable()) {
+//            val notificationIntent = Intent(this, NotificationListActivity::class.java)
+//            startActivity(notificationIntent)
             val intent = Intent(this, MyNotificationListenerService::class.java)
             startService(intent)
             Toast.makeText(this, "启动服务成功", Toast.LENGTH_SHORT).show()
+            packageNames = et?.text?.toString()?.trim()?.let {
+                it.split(",")
+            }
         } else {
             openNotificationSettings()
         }

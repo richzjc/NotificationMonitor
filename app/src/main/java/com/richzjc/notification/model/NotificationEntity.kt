@@ -4,5 +4,5 @@ class NotificationEntity {
     var title : String? = null
     var content : String? = null
     var subContent : String? = null
-    val flag : Int? = null
+    var flag : Int? = null
 }
