@@ -33,7 +33,6 @@ class MyNotificationListenerService : NotificationListenerService() {
         } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             bundle = n?.extras
         }
-
         val contentText = bundle?.getString(Notification.EXTRA_TEXT) ?: ""
         val contentSubText = bundle?.getString(Notification.EXTRA_SUB_TEXT) ?: ""
         val entity = NotificationEntity()

@@ -29,9 +29,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (isNotificationListenerEnable()) {
             val notificationIntent = Intent(this, NotificationListActivity::class.java)
             startActivity(notificationIntent)
-            val intent = Intent(this, MyNotificationListenerService::class.java)
-            startService(intent)
-            Toast.makeText(this, "启动服务成功", Toast.LENGTH_SHORT).show()
             packageNames = et?.text?.toString()?.trim()?.let {
                 val list = it.split(",")
                 list.forEach { it.trim() }

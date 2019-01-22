@@ -7,9 +7,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.richzjc.notification.R
 import com.richzjc.notification.adapter.holder.AppListHolder
+import android.content.pm.ApplicationInfo
 
-class AppListAdapter(context : Context) : RecyclerView.Adapter<AppListHolder>() {
-    val list = context.packageManager.getInstalledApplications(0)
+
+
+class AppListAdapter(context: Context) : RecyclerView.Adapter<AppListHolder>() {
+    val list = context.packageManager.getInstalledPackages(0).filter {
+        val flag = (it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM === 0)
+        flag
+    }
+
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): AppListHolder {
         return AppListHolder(LayoutInflater.from(p0.context).inflate(R.layout.item_app, p0, false))
@@ -19,9 +26,9 @@ class AppListAdapter(context : Context) : RecyclerView.Adapter<AppListHolder>() 
 
     override fun onBindViewHolder(p0: AppListHolder, p1: Int) {
         p0.doBindData(list[p1])
-        if(p1%2 == 0){
+        if (p1 % 2 == 0) {
             p0.itemView.setBackgroundColor(Color.WHITE)
-        }else{
+        } else {
             p0.itemView.setBackgroundColor(Color.GREEN)
         }
 
