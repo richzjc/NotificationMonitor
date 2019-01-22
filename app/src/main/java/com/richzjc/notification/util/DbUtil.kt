@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.util.Log
 import com.richzjc.notification.db.DataBaseHelper
 import com.richzjc.notification.model.NotificationEntity
+import com.richzjc.notification.packageNames
 
 fun insert(dbHelpter : DataBaseHelper, entity : NotificationEntity){
     val values = ContentValues()
@@ -14,4 +15,8 @@ fun insert(dbHelpter : DataBaseHelper, entity : NotificationEntity){
     dbHelpter.writableDatabase?.insert("notification", null, values)
     val cursor = dbHelpter.writableDatabase.query("notification", null, null, null, null, null, null)
     Log.i("size", "${cursor.count}")
+}
+
+fun containsPackageName(packageName : String?) : Boolean{
+    return packageNames?.contains(packageName) ?: false
 }

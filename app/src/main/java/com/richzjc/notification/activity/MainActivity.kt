@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             startService(intent)
             Toast.makeText(this, "启动服务成功", Toast.LENGTH_SHORT).show()
             packageNames = et?.text?.toString()?.trim()?.let {
-                it.split(",")
+                val list = it.split(",")
+                list.forEach { it.trim() }
+                list
             }
         } else {
             openNotificationSettings()

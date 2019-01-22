@@ -9,6 +9,7 @@ import android.service.notification.StatusBarNotification
 import com.richzjc.notification.adapter.NotificationAdapter
 import com.richzjc.notification.db.DataBaseHelper
 import com.richzjc.notification.model.NotificationEntity
+import com.richzjc.notification.util.containsPackageName
 import com.richzjc.notification.util.insert
 
 @SuppressLint("OverrideAbstract")
@@ -21,15 +22,15 @@ class MyNotificationListenerService : NotificationListenerService() {
         val n = sbn?.notification
         val title = n?.tickerText?.toString() ?: ""
         val flag = n?.flags ?: -1
-        var bundle : Bundle? = null
-        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2){
+        var bundle: Bundle? = null
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
             try {
                 val field = Notification::class.java.getDeclaredField("extras")
                 bundle = field?.get(n) as? Bundle
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }else if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+        } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             bundle = n?.extras
         }
 
@@ -41,9 +42,11 @@ class MyNotificationListenerService : NotificationListenerService() {
         entity.subContent = contentSubText
         entity.flag = flag
         entity.packageName = sbn?.packageName
-        NotificationAdapter.list.add(0, entity)
-        NotificationAdapter.notifyItemInserted(0)
-        insert(dbHelper, entity)
+        if (containsPackageName(sbn?.packageName)) {
+            NotificationAdapter.list.add(0, entity)
+            NotificationAdapter.notifyItemInserted(0)
+            insert(dbHelper, entity)
+        }
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?) {
