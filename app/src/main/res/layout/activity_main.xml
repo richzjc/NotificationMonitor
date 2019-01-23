@@ -3,48 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_desc"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_marginTop="10dp"
-        android:textColor="#000000"
-        android:text="请输入要拦截推送的app包名， 多个包名以逗号分隔， 当前手机安装的app包名如下列表"
-        />
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/start_service_bg">
 
-    <EditText
-        android:id="@+id/et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="#000000"
-        android:layout_marginTop="10dp"
-        android:hint="请输入要拦截推送的app包名,多个包名用逗号分隔"
-        />
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="启动服务"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="#1482f0"
-        android:padding="5dp"
-        android:text="启动服务"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#ffffff"
-        />
+        <ImageView
+            android:id="@+id/setting"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/setting" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/start"
-        />
+        android:layout_marginTop="20dp" />
 </LinearLayout>

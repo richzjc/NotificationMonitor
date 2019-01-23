@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.app.NotificationManagerCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.richzjc.notification.R
 import com.richzjc.notification.adapter.AppListAdapter
-import com.richzjc.notification.packageNames
 import com.richzjc.notification.service.MyNotificationListenerService
 import com.richzjc.notification.util.isNotificationEnable
 import io.reactivex.Observable
@@ -22,7 +20,7 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     var serviceIntent: Intent? = null
-    var disPosable : Disposable? = null
+    var disPosable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,46 +31,35 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         start.setOnClickListener(this)
     }
 
-    private fun checkPermiss(){
-        if(isNotificationEnable(this)){
-            serviceIntent = Intent(this, MyNotificationListenerService::class.java)
-            startService(serviceIntent)
-            start.visibility = View.GONE
-        }else{
+    private fun checkPermiss() {
+        if (isNotificationEnable(this)) {
+            launchService()
+        } else {
             openNotificationSettings()
             Toast.makeText(this, "请先打开设置里面对应app的开关，只有打开了开关才能收到推送", Toast.LENGTH_LONG).show()
             addObserble()
         }
     }
 
-    private fun addObserble(){
-       disPosable = Observable.interval(300, TimeUnit.MILLISECONDS)
+    private fun launchService() {
+        serviceIntent = Intent(this, MyNotificationListenerService::class.java)
+        startService(serviceIntent)
+        Toast.makeText(this, "启动服务成功", Toast.LENGTH_LONG).show()
+    }
+
+    private fun addObserble() {
+        dispose()
+        disPosable = Observable.interval(300, TimeUnit.MILLISECONDS)
                 .takeUntil { isNotificationEnable(this) }
                 .doOnNext {
                     serviceIntent = serviceIntent ?: Intent(this, MyNotificationListenerService::class.java)
                     startService(serviceIntent)
-                    start.visibility = View.GONE
+                    dispose()
                 }
                 .subscribe()
     }
 
-    override fun onClick(v: View?) {
-        if (isNotificationEnable(this)) {
-            val notificationIntent = Intent(this, NotificationListActivity::class.java)
-            startActivity(notificationIntent)
-            packageNames = et?.text?.toString()?.trim()?.let {
-                if(it.isEmpty())
-                    null
-                else {
-                    val list = it.split(",")
-                    list.forEach { it.trim() }
-                    list
-                }
-            }
-        } else {
-            openNotificationSettings()
-        }
-    }
+    override fun onClick(v: View?) = checkPermiss()
 
     private fun openNotificationSettings() {
         try {
@@ -90,10 +77,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        if(serviceIntent != null)
+        if (serviceIntent != null)
             stopService(serviceIntent)
+        dispose()
+    }
 
-        if(disPosable != null && !disPosable!!.isDisposed)
+    private fun dispose() {
+        if (disPosable != null && !disPosable!!.isDisposed)
             disPosable!!.dispose()
     }
 }
